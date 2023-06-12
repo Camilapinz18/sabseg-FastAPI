@@ -17,7 +17,6 @@ class Base:
         default=datetime.utcnow,
         onupdate=datetime.utcnow
     )
-    is_archived = Column(Boolean(), default=False, nullable=False)
 
     __name__: str
     __models__ = []
