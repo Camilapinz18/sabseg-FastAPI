@@ -2,7 +2,7 @@ import logging
 from fastapi import APIRouter, Depends, Request
 from starlette.datastructures import MutableHeaders
 
-module_name = 'user'
+module_name = 'users'
 module_prefix = f"/{module_name}"
 
 

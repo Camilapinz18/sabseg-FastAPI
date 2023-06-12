@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from register import api_router
+from .register import api_router
+
+
 
 app = FastAPI(
     title='SABSEG-FastAPI',

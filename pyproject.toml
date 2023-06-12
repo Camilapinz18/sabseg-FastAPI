@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "railway-fastapi-template"
+name = "app"
 version = "0.1.0"
-description = "This example starts up a FastAPI server"
-authors = ["DeviousLab <deviouslab@gmail.com>"]
+description = ""
+authors = ["Admin <camilapinz18@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.9"
 fastapi = "^0.80.0"
 uvicorn = "^0.18.3"
 
@@ -15,3 +15,6 @@ uvicorn = "^0.18.3"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start = "uvicorn main:app --reload"
