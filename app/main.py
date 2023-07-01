@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from .register import api_router
-
+import sys
 
 
 app = FastAPI(
@@ -10,10 +10,10 @@ app = FastAPI(
 )
 
 
-# @app.on_event("startup")
-# async def startup_event():
-#     import_bulk_default_data()
-#     print('Running default data version scripts')
+@app.on_event("startup")
+async def startup_event():
+
+    print(sys.path)
 
 app.add_middleware(
     CORSMiddleware,
