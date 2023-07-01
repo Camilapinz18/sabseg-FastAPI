@@ -40,6 +40,8 @@ def upgrade() -> None:
         sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_room_id'), 'room', ['id'], unique=False)
+    
+
 
 def downgrade() -> None:
     op.drop_index(op.f('ix_room_id'), table_name='room')
