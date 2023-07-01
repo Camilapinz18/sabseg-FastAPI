@@ -34,31 +34,37 @@ def upgrade() -> None:
     op.create_table(
         'reservation',
         sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+        sa.Column('created_at', sa.DateTime(), nullable=True),
+        sa.Column('updated_at', sa.DateTime(), nullable=True),
         sa.Column('date', sa.Date(), nullable=False),
         sa.Column('start_hour', sa.Time(), nullable=False),
         sa.Column('end_hour', sa.Time(), nullable=False),
         sa.Column('aditional', sa.String(), nullable=True),
         sa.Column('client_id', sa.Integer(), nullable=False),
         sa.Column('reservation_type', sa.String(), nullable=False),
-        sa.Column('room', sa.String(), nullable=False),
-        sa.ForeignKeyConstraint(['client_id'], ['user.id'], ondelete='RESTRICT'),
-        sa.ForeignKeyConstraint(['reservation_type'], ['reservation_type.name'], ondelete='RESTRICT'),
-        sa.ForeignKeyConstraint(['room'], ['room.name'], ondelete='RESTRICT'),
+        sa.Column('room', sa.Integer(), nullable=False),
+        sa.ForeignKeyConstraint(['client_id'], ['user.id'], ondelete='CASCADE'),
+        sa.ForeignKeyConstraint(['reservation_type'], ['reservation_type.name'], ondelete='CASCADE'),
+        sa.ForeignKeyConstraint(['room'], ['room.id'], ondelete='CASCADE'),
         sa.PrimaryKeyConstraint('id')
     )
     
     op.create_table(
         'reservation_equipments',
         sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+        sa.Column('created_at', sa.DateTime(), nullable=True),
+        sa.Column('updated_at', sa.DateTime(), nullable=True),
         sa.Column('reservation_id', sa.Integer(), nullable=False),
         sa.Column('equipment_id', sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(['reservation_id'], ['reservation.id'], ondelete='RESTRICT'),
-        sa.ForeignKeyConstraint(['equipment_id'], ['equipment.id'], ondelete='RESTRICT'),
+        sa.ForeignKeyConstraint(['reservation_id'], ['reservation.id'], ondelete='CASCADE'),
+        sa.ForeignKeyConstraint(['equipment_id'], ['equipment.id'], ondelete='CASCADE'),
         sa.PrimaryKeyConstraint('id')
     )
 
 
 def downgrade() -> None:
-    op.drop_table('reservation_type')
-    op.drop_table('reservation')
     op.drop_table('reservation_equipments')
+    op.drop_table('reservation')
+    op.drop_table('reservation_type')
+    
+    

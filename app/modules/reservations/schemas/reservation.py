@@ -1,19 +1,24 @@
 # lib
-from typing import Optional
+from typing import Any, List, Optional
 from pydantic import BaseModel, validator
-from datetime import date, datetime
+from datetime import date, datetime, time
 
 
-class RoomPost(BaseModel):
-    name: str
-    status: str
-    category_name: str
+class ReservationPost(BaseModel):
+    date: date
+    start_hour: time
+    end_hour: time
+    aditional: Optional[str]
+    client_id: int
+    reservation_type: str
+    room: str
+    equipments: Optional[List[Any]]
     
     class Config:
         orm_mode = True
 
 
-class RoomUpdate(BaseModel):
+class ReservationUpdate(BaseModel):
     name: Optional[str]
     status: Optional[str]
     category_name: Optional[str]

@@ -4,59 +4,59 @@ from fastapi import HTTPException
 from fastapi import Request
 
 # route
-from ..register import rooms_router
+from ..register import reservations_router
 
 # session
 from app.core.db.session import get_db
 from sqlalchemy.orm import Session
 
 # provider
-from app.modules.rooms.providers.room import Room as RoomProvider
+from app.modules.reservations.providers.reservation import Reservation as ReservationProvider
 
 # schemas
-from app.modules.rooms.schemas.room import RoomPost, RoomUpdate
+from app.modules.reservations.schemas.reservation import ReservationPost, ReservationUpdate
 
 
-@rooms_router.get("")
-def get_rooms(
+@reservations_router.get("")
+def get_reservations(
     db_session: Session = Depends(get_db)
 ):
-    users = RoomProvider.get_rooms(db_session)
-    return users
+    reservations = ReservationProvider.get_reservations(db_session)
+    return reservations
 
 
-@rooms_router.get("/{id}")
-def get_room_by_id(
+@reservations_router.get("/{id}")
+def get_reservation_by_id(
     id: int,
     db_session: Session = Depends(get_db)
 ):
-    room = RoomProvider.get_room_by_id(id, db_session)
-    return room
+    reservation = ReservationProvider.get_reservation_by_id(id, db_session)
+    return reservation
 
 
-@rooms_router.post("")
-def create_room(
-    room: RoomPost,
+@reservations_router.post("")
+def create_reservation(
+    reservation: ReservationPost,
     db_session: Session = Depends(get_db)
 ):
-    created = RoomProvider.create_room(room,  db_session)
+    created = ReservationProvider.create_reservation(reservation,  db_session)
     return created
 
 
-@rooms_router.put("/{id}")
-def update_room(
+@reservations_router.put("/{id}")
+def update_reservation(
     id: int,
-    room_update: RoomUpdate,
+    reservation_update: ReservationUpdate,
     db_session: Session = Depends(get_db)
 ):
-    room = RoomProvider.update_room(id, room_update, db_session)
+    room = ReservationProvider.update_reservation(id, reservation_update, db_session)
     return room
 
 
-@rooms_router.delete("/{id}")
-def delete_room_by_id(
+@reservations_router.delete("/{id}")
+def delete_reservation_by_id(
     id: int,
     db_session: Session = Depends(get_db)
 ):
-    room = RoomProvider.delete_room_by_id(id, db_session)
-    return room
+    reservation = ReservationProvider.delete_reservation_by_id(id, db_session)
+    return reservation

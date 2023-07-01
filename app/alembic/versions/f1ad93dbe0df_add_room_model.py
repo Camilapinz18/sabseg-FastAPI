@@ -24,9 +24,9 @@ def upgrade() -> None:
         sa.Column('updated_at', sa.DateTime(), nullable=True),
         sa.Column('name', sa.String(), nullable=False),
         sa.Column('description', sa.String(), nullable=True),
-        sa.PrimaryKeyConstraint('name')
+        sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_room_category_id'), 'room_category', ['name'], unique=False)
+    op.create_index(op.f('ix_room_category_id'), 'room_category', ['id'], unique=False)
 
     op.create_table(
         'room',
@@ -35,11 +35,11 @@ def upgrade() -> None:
         sa.Column('updated_at', sa.DateTime(), nullable=True),
         sa.Column('name', sa.String(), nullable=False),
         sa.Column('status', sa.String(), nullable=False),
-        sa.Column('category_name', sa.String(), nullable=True),
-        sa.ForeignKeyConstraint(['category_name'], ['room_category.name'], ondelete='RESTRICT'),
-        sa.PrimaryKeyConstraint('name')
+        sa.Column('category_name', sa.Integer(), nullable=True),
+        sa.ForeignKeyConstraint(['category_name'], ['room_category.id'], ondelete='RESTRICT'),
+        sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_room_id'), 'room', ['name'], unique=False)
+    op.create_index(op.f('ix_room_id'), 'room', ['id'], unique=False)
     
 
 

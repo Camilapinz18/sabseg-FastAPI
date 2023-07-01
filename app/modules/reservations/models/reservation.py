@@ -21,9 +21,9 @@ class Reservation(Base):
     client_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     client=relationship('User', lazy='joined')
 
-    reservation_type=Column(String, ForeignKey('reservation.name'), nullable=False)
+    reservation_type=Column(String, ForeignKey('reservation.id'), nullable=False)
     reservation=relationship('ReservationType', lazy='joined')
 
-    room=Column(String, ForeignKey('room.name'), nullable=False)
+    room=Column(String, ForeignKey('room.id'), nullable=False)
     reservation=relationship('Room', lazy='joined')
 
