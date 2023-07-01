@@ -29,3 +29,4 @@ equipments_router = APIRouter(
 )
 
 from .routes.equipment import *  # noqa
+from .routes.equipment_category import *  # noqa

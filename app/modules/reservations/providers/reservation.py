@@ -3,6 +3,7 @@ from sqlalchemy import func, distinct
 
 # models:
 from app.modules.reservations.models.reservation import Reservation as ReservationModel
+from app.modules.reservations.models.reservation_equipment import ReservationEquipments as ReservationEquipmentsModel
 
 
 class Reservation():
@@ -24,15 +25,27 @@ class Reservation():
         return reservation
     
     def create_reservation(reservation, db_session):
+        equipments=reservation.equipments
         
-        reservation = ReservationModel(**reservation.dict(exclude_unset=True,
-                                 exclude={"equipments"}))
+        
+        reservation = ReservationModel(**reservation.dict(exclude_unset=True, exclude={"equipments"}))
 
         db_session.add(reservation)
-        
-
-        
         db_session.commit()
+        #db_session.refresh(reservation)
+        
+        # equipments_to_save=[]
+        
+        # for data in equipments:
+        #     reservation_equipments=ReservationEquipmentsModel(
+        #         equipment_id = data,
+        #         reservation_id = reservation.id
+        #     )
+            
+        #     equipments_to_save.append(reservation_equipments)
+            
+        # db_session.add_all(equipments_to_save)
+        # db_session.commit()
         
         return {"msg": f"Se han creado la reservación exitosamente"}
 
