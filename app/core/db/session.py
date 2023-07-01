@@ -7,7 +7,8 @@ from app.core.data import Data
 
 
 engine = create_engine(
-    f'postgresql://Camilapinz18:gR6oQeOBftJ9@ep-muddy-snowflake-466588.us-east-2.aws.neon.tech/neondb',
+    #f'postgresql://Camilapinz18:gR6oQeOBftJ9@ep-muddy-snowflake-466588.us-east-2.aws.neon.tech/neondb',
+    f'postgresql://sabseg_admin:sabseg@localhost:5432/sabseg_db',
     pool_size=10,
     max_overflow=2,
     pool_recycle=500,
