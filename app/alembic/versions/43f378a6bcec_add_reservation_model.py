@@ -51,7 +51,7 @@ def upgrade() -> None:
         'reservation_equipments',
         sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
         sa.Column('reservation_id', sa.Integer(), nullable=False),
-        sa.Column('equipment_id', sa.String(), nullable=False),
+        sa.Column('equipment_id', sa.Integer(), nullable=False),
         sa.ForeignKeyConstraint(['reservation_id'], ['reservation.id'], ondelete='RESTRICT'),
         sa.ForeignKeyConstraint(['equipment_id'], ['equipment.id'], ondelete='RESTRICT'),
         sa.PrimaryKeyConstraint('id')

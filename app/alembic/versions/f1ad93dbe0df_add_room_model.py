@@ -37,9 +37,9 @@ def upgrade() -> None:
         sa.Column('status', sa.String(), nullable=False),
         sa.Column('category_name', sa.String(), nullable=True),
         sa.ForeignKeyConstraint(['category_name'], ['room_category.name'], ondelete='RESTRICT'),
-        sa.PrimaryKeyConstraint('id')
+        sa.PrimaryKeyConstraint('name')
     )
-    op.create_index(op.f('ix_room_id'), 'room', ['id'], unique=False)
+    op.create_index(op.f('ix_room_id'), 'room', ['name'], unique=False)
     
 
 
