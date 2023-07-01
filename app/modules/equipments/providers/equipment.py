@@ -18,10 +18,11 @@ class Equipment():
         
         return {"msg": f"Se han creado {total_stock} equipos exitosamente"}
 
-    def get_equipments(db_session):
+    def get_all_equipments(db_session):
         equipments = db_session.query(EquipmentModel).all()
 
         return equipments
+    
 
     def get_equipment_by_id(id, db_session):
         equipment = db_session.query(EquipmentModel).filter(EquipmentModel.id == id).first()

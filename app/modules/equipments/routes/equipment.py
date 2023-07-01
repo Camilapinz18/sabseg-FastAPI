@@ -18,10 +18,10 @@ from app.modules.equipments.schemas.equipment import EquipmentPost, EquipmentUpd
 
 
 @equipments_router.get("")
-def get_equipments(
+def get_all_equipments(
     db_session: Session = Depends(get_db)
 ):
-    equipments = EquipmentProvider.get_equipments(db_session)
+    equipments = EquipmentProvider.get_all_equipments(db_session)
     return equipments
 
 
