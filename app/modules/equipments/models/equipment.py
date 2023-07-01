@@ -5,7 +5,7 @@ from datetime import datetime
 
 # base
 from app.core.db.base import Base
-
+from .equipment_category import EquipmentCategory
 
 class Equipment(Base):
     brand = Column(String, nullable=False)
@@ -14,3 +14,6 @@ class Equipment(Base):
     total_stock = Column(Integer, nullable=False)
     current_stock = Column(Integer, nullable=False)
     status = Column(String, nullable=True)
+    category_name = Column(String, ForeignKey('equipment_category.name'))
+    
+    category= relationship('EquipmentCategory', lazy='joined')
