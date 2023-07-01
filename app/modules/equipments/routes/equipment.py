@@ -44,12 +44,12 @@ def create_equipment(
 
 
 @equipments_router.put("/{id}")
-def update_equipment(
+def update_equipment_by_id(
     id: int,
     equipment_update: EquipmentUpdate,
     db_session: Session = Depends(get_db)
 ):
-    equipment = EquipmentProvider.update_equipment(id, equipment_update, db_session)
+    equipment = EquipmentProvider.update_equipment_by_id(id, equipment_update, db_session)
     return equipment
 
 

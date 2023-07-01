@@ -36,8 +36,6 @@ def upgrade() -> None:
         sa.Column('brand', sa.String(), nullable=False),
         sa.Column('reference', sa.String(), nullable=False),
         sa.Column('photo', sa.String(), nullable=True),
-        sa.Column('total_stock', sa.Integer(), nullable=False),
-        sa.Column('current_stock', sa.Integer(), nullable=False),
         sa.Column('status', sa.String(), nullable=True),
         sa.Column('category_name', sa.String(), nullable=True),
         sa.ForeignKeyConstraint(['category_name'], ['equipment_category.name'], ondelete='RESTRICT'),

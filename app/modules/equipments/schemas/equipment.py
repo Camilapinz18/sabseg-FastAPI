@@ -19,8 +19,6 @@ class EquipmentPost(BaseModel):
 class EquipmentUpdate(BaseModel):
     brand: Optional[str]
     reference: Optional[str]
-    photo: Optional[str]
-    total_stock: Optional[int]
     status: Optional[str]
     category_name: Optional[str]
 

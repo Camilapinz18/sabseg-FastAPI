@@ -8,14 +8,15 @@ from app.modules.equipments.models.equipment import Equipment as EquipmentModel
 class Equipment():
     def create_equipment(equipment, db_session):
         equipment_data = equipment.dict()
-        equipment_data['current_stock'] = equipment.total_stock
+        total_stock = equipment_data.pop('total_stock')
         
-        created = EquipmentModel(**equipment_data)
-        db_session.add(created)
+        for _ in range(total_stock):
+            created = EquipmentModel(**equipment_data)
+            db_session.add(created)
+        
         db_session.commit()
-            
-        return {"msg": "Equipo creado exitosamente"}
         
+        return {"msg": f"Se han creado {total_stock} equipos exitosamente"}
 
     def get_equipments(db_session):
         equipments = db_session.query(EquipmentModel).all()
@@ -46,21 +47,22 @@ class Equipment():
                 detail='No se ha encontrado un equipo con el id proporcionado'
             )
 
-    def update_equipment(id, user_update, db_session):
-        pass
-        # user = db_session.query(UserModel).filter(UserModel.id == id).first()
+    def update_equipment_by_id(id, equipment_update, db_session):
+        
+        equipment = db_session.query(EquipmentModel).filter(EquipmentModel.id == id).first()
 
-        # if not user:
-        #     raise HTTPException(
-        #         status_code=404,
-        #         detail='No se ha encontrado un usuario con el id proporcionado'
-        #     )
+        if not equipment:
+            raise HTTPException(
+                status_code=404,
+                detail='No se ha encontrado un equipo con el id proporcionado'
+            )
 
-        # user.name = user_update.name
-        # user.surname = user_update.surname
-        # user.phone = user_update.phone
+        equipment.brand = equipment_update.brand
+        equipment.reference = equipment_update.reference
+        equipment.status = equipment_update.status
+        equipment.category_name = equipment_update.category_name
+        
+        db_session.add(equipment)
+        db_session.commit()
 
-        # db_session.add(user)
-        # db_session.commit()
-
-        # return {"msg": "Usuario actualizado correctamente"}
+        return {"msg": "Equipo actualizado correctamente"}
