@@ -29,3 +29,4 @@ rooms_router = APIRouter(
 )
 
 from .routes.room import *  # noqa
+from .routes.room_category import *  # noqafrom .routes.room import *  # noqa

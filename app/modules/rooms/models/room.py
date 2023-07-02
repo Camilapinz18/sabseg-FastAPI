@@ -10,6 +10,6 @@ from .room_category import RoomCategory
 class Room(Base):
     name = Column(String, nullable=False)
     status=Column(String, nullable=False)
-    category_name = Column(String, ForeignKey('room_category.name'), nullable=False)
+    category_name = Column(Integer, ForeignKey('room_category.id'), nullable=False)
     
     category= relationship('RoomCategory', lazy='joined')
