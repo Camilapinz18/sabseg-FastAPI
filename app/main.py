@@ -3,6 +3,7 @@ from starlette.middleware.cors import CORSMiddleware
 from .register import api_router
 import sys
 
+from app.core.db.default_data.import_bulk_default_data import import_bulk_default_data
 
 app = FastAPI(
     title='SABSEG-FastAPI',
@@ -14,6 +15,7 @@ app = FastAPI(
 async def startup_event():
 
     print(sys.path)
+    import_bulk_default_data()
 
 app.add_middleware(
     CORSMiddleware,

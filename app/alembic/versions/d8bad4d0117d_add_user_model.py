@@ -18,6 +18,16 @@ depends_on = None
 
 
 def upgrade() -> None:
+    op.create_table('default_data_version',
+        sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+        sa.Column('created_at', sa.DateTime(), nullable=True),
+        sa.Column('updated_at', sa.DateTime(), nullable=True),
+        sa.Column('name', sa.String(), nullable=False),
+        sa.Column('version', sa.Integer(), nullable=True),
+        sa.PrimaryKeyConstraint('id')
+        )
+    op.create_index(op.f('ix_default_data_version_id'), 'default_data_version', ['id'], unique=False)
+    
     op.create_table('user',
                     sa.Column('id', sa.Integer(),
                               autoincrement=True, nullable=False),
@@ -143,3 +153,5 @@ def downgrade() -> None:
 
     op.drop_index(op.f('ix_user_id'), table_name='user')
     op.drop_table('user')
+    op.drop_index(op.f('ix_default_data_version_id'), table_name='default_data_version')
+    op.drop_table('default_data_version')
