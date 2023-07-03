@@ -1,5 +1,5 @@
 from sqlalchemy.dialects.postgresql import insert
-
+from sqlalchemy import func
 from app.modules.equipments.models.equipment_category import EquipmentCategory
 from app.core.models.default_data_version import DefaultDataVersion
 
@@ -28,18 +28,22 @@ def import_equipment_categories(db_session):
         db_session.add(default_data_version)
 
     # Verify if the data is newer
+    # Verify if the data is newer
     if V_EQUIPMENT_CATEGORIES > default_data_version.version or is_firts_time:
-    # Update the version
+        # Update the version
         default_data_version.version = V_EQUIPMENT_CATEGORIES
+
+        last_id = db_session.query(func.max(EquipmentCategory.id)).scalar() or 0
 
         items = []
         for item in DefaultEquipmentCategories.list():
             _name, description = item
+            last_id += 1  # Increment the last ID
             items.append(
                 {
-                    "id":1,
+                    "id": last_id,
                     "name": _name,
-                    "description": description            
+                    "description": description
                 }
             )
 
