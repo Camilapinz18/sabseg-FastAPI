@@ -11,7 +11,7 @@ class ReservationPost(BaseModel):
     aditional: Optional[str]
     client_id: int
     reservation_type: str
-    room: str
+    room_id: int
     equipments: Optional[List[Any]]
     
     class Config:

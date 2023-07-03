@@ -5,13 +5,18 @@ from datetime import datetime
 # base
 from app.core.db.base import Base
 
-from app.modules.reservations.models.reservation import Reservation
-from app.modules.equipments.models.equipment import Equipment
 
-class ReservationEquipments(Base):
-    reservation_id = Column(Integer, ForeignKey('reservation.id'), nullable=False)
-    reservation=relationship('Reservation', lazy='joined')
-
-    equipment_id=Column(String, ForeignKey('equipment.id'), nullable=False)
-    equipment=relationship('Equipment', lazy='joined')
-
+reservation_equipments = Table(
+    'reservation_equipments',
+    Base.metadata,
+    Column(
+        'reservation_id',
+        Integer,
+        ForeignKey('reservation.id')
+    ),
+    Column(
+        'equipment_id',
+        String,
+        ForeignKey('equipment.id')
+    ),
+)

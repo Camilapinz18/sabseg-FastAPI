@@ -3,7 +3,7 @@ from sqlalchemy import func, distinct
 
 # models:
 from app.modules.reservations.models.reservation import Reservation as ReservationModel
-from app.modules.reservations.models.reservation_equipment import ReservationEquipments as ReservationEquipmentsModel
+from app.modules.equipments.models.equipment import Equipment as EquipmentModel
 
 
 class Reservation():
@@ -28,7 +28,27 @@ class Reservation():
         equipments=reservation.equipments
         
         
-        reservation = ReservationModel(**reservation.dict(exclude_unset=True, exclude={"equipments"}))
+        reservation = ReservationModel(**reservation.dict(exclude_unset=True, exclude={"equipments","room"}))
+        #reservation.equipments=equipments
+
+        total_equipments=[]
+
+        for id in equipments:
+            print("id",id)
+
+            equipment_objects = db_session.query(EquipmentModel).filter(
+                EquipmentModel.id==id).first()
+            
+            if not equipment_objects:
+                raise HTTPException(
+                    status_code=404,
+                    detail='No se ha encontrado un equipo con el id proporcionado'
+                )
+            
+            total_equipments.append(equipment_objects)
+        
+        print("equipment_objects",equipment_objects)
+        reservation.equipments=total_equipments
 
         db_session.add(reservation)
         db_session.commit()
