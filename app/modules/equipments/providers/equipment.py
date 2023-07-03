@@ -1,8 +1,14 @@
 from fastapi import HTTPException
 from sqlalchemy import func, distinct
+from sqlalchemy.orm import aliased
+from sqlalchemy.sql import and_, or_, not_  # Import the necessary logical operators
+from sqlalchemy.sql.expression import literal_column
+from datetime import datetime
 
 # models:
 from app.modules.equipments.models.equipment import Equipment as EquipmentModel
+from app.modules.reservations.models.reservation import Reservation as ReservationModel
+from app.modules.reservations.models.reservation_equipment import reservation_equipments
 
 
 class Equipment():
@@ -67,3 +73,25 @@ class Equipment():
         db_session.commit()
 
         return {"msg": "Equipo actualizado correctamente"}
+    
+    def get_available_equipments(available, db_session):
+
+        reservation_ids = db_session.query(ReservationModel).filter(
+                ReservationModel.date == available.date,
+                ReservationModel.start_hour <= available.end_hour,
+                ReservationModel.end_hour >= available.start_hour
+        ).all()
+                
+        reserved_equipments=[]
+        
+        for reservation in reservation_ids:
+            for equipment in reservation.equipments:
+                reserved_equipments.append(equipment.id)       
+        
+        distinct_equipments = list(set(reserved_equipments))
+        
+        available_equipment = db_session.query(EquipmentModel).filter(
+            ~EquipmentModel.id.in_(distinct_equipments)
+        ).all()              
+    
+        return available_equipment

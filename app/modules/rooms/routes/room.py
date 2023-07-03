@@ -15,7 +15,7 @@ from app.modules.rooms.providers.room import Room as RoomProvider
 
 # schemas
 from app.modules.rooms.schemas.room import RoomPost, RoomUpdate
-
+from app.modules.rooms.schemas.available_rooms import AvailableRoomPost
 
 @rooms_router.get("")
 def get_rooms(
@@ -59,4 +59,13 @@ def delete_room_by_id(
     db_session: Session = Depends(get_db)
 ):
     room = RoomProvider.delete_room_by_id(id, db_session)
+    return room
+
+
+@rooms_router.post("/available/")
+def get_available_rooms(
+    available: AvailableRoomPost,
+    db_session: Session = Depends(get_db)
+):
+    room = RoomProvider.get_available_rooms(available, db_session)
     return room

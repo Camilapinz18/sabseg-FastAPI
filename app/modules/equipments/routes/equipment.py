@@ -15,6 +15,7 @@ from app.modules.equipments.providers.equipment import Equipment as EquipmentPro
 
 # schemas
 from app.modules.equipments.schemas.equipment import EquipmentPost, EquipmentUpdate
+from app.modules.equipments.schemas.available_equipments import AvailableEquipmentPost
 
 
 @equipments_router.get("")
@@ -60,3 +61,11 @@ def delete_equipment_by_id(
 ):
     equipment = EquipmentProvider.delete_equipment_by_id(id, db_session)
     return equipment
+
+@equipments_router.post("/available/")
+def get_available_equipments(
+    available: AvailableEquipmentPost,
+    db_session: Session = Depends(get_db)
+):
+    room = EquipmentProvider.get_available_equipments(available, db_session)
+    return room
