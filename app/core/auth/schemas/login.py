@@ -12,3 +12,16 @@ class Login(BaseModel):
         orm_mode = True
 
 
+class Register(BaseModel):
+    email:str
+    password:str
+    confirm_password: str
+    name: str
+    surname: str
+    phone: str
+    attendance: int    
+    
+    class Config:
+        orm_mode = True
+
+

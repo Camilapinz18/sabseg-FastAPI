@@ -2,6 +2,7 @@
 from fastapi import Depends, UploadFile, File
 from fastapi import HTTPException
 from fastapi import Request
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 # route
 from ..register import reservations_router
@@ -16,9 +17,11 @@ from app.modules.reservations.providers.reservation import Reservation as Reserv
 # schemas
 from app.modules.reservations.schemas.reservation import ReservationPost, ReservationUpdate
 
+oauth2_scheme=OAuth2PasswordBearer("/token")
 
 @reservations_router.get("")
 def get_reservations(
+    token: str = Depends(oauth2_scheme),
     db_session: Session = Depends(get_db)
 ):
     reservations = ReservationProvider.get_reservations(db_session)

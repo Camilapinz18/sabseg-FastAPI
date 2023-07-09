@@ -14,6 +14,12 @@ from sqlalchemy.orm import Session
 from app.core.auth.providers.auth import Auth as AuthProvider
 # schemas
 from app.core.auth.schemas.login import Login
+from app.core.auth.schemas.login import Register
+
+
+
+auth_handler=AuthProvider()
+
 
 
 @auth_router.post("/login")
@@ -22,4 +28,12 @@ def login(
     db_session: Session = Depends(get_db)
 ):
     login = AuthProvider.login(login_data,db_session)
+    return login
+
+@auth_router.post("/register")
+def login(
+    register_data:Register,
+    db_session: Session = Depends(get_db)
+):
+    login = AuthProvider.register(register_data,db_session)
     return login
