@@ -40,7 +40,10 @@ class Auth():
         return Auth.pwd_context.hash(password)
     
     def verify_password(plain_password, hashed_password):
+
         return Auth.pwd_context.verify(plain_password, hashed_password)
+
+
     
     def encode_token(user_id):
         payload={
@@ -77,13 +80,19 @@ class Auth():
                 detail="El email proporcionado no se encuentra registrado"
             )
         else:
-            if user.password == login_data.password:
-                return {'msg':'Inicio de sesión exitoso'}
-            else:
+            plain_password= login_data.password
+            hashed_password = user.password
+            if not Auth.verify_password(plain_password, hashed_password):
+                print("INCORRECT____", plain_password, hashed_password)
                 raise HTTPException(
-                    status_code=400,
+                    status_code=401,
                     detail='Contraseña incorrecta'
                 )
+            else:
+                token=Auth.encode_token(login_data.email)
+                return {'token':token}
+
+
         
     def register(register_data, db_session):
         email_exists = db_session.query(UserModel).filter(
@@ -100,6 +109,7 @@ class Auth():
             password=register_data.password
             hashed_password=Auth.get_password_hash(password)
             register_data.password=hashed_password
+            print("EGISTER",register_data)
 
             user_data = register_data.dict(exclude={"confirm_password"})
 
