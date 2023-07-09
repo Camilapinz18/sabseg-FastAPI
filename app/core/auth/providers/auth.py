@@ -45,7 +45,7 @@ class Auth():
                 )
             else:
                 token=encode_token(user.id, user.role)
-                return {'token':token}
+                return {'token':token, 'role':user.role}
 
 
         
