@@ -5,11 +5,19 @@ from sqlalchemy import func, distinct
 from app.modules.reservations.models.reservation import Reservation as ReservationModel
 from app.modules.equipments.models.equipment import Equipment as EquipmentModel
 
+from app.core.db.default_data.master_data.roles.roles import DefaultRoles
+
 
 class Reservation():
     def get_reservations(current_user, db_session):
-        reservations = db_session.query(ReservationModel).filter(
-            ReservationModel.client_id==current_user).all()
+        reservations=None
+
+        if current_user['role'] == DefaultRoles.client.code:
+            reservations = db_session.query(ReservationModel).filter(
+                ReservationModel.client_id==current_user['id']).all()
+            
+        if current_user['role'] == DefaultRoles.admin.code:
+            reservations = db_session.query(ReservationModel).all()
 
         return reservations
     

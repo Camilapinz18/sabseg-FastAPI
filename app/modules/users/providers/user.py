@@ -18,7 +18,8 @@ class Users():
                     status_code=400,
                     detail="El email ya se encuentra registrado. Inicia sesión o prueba con otro email"
                 )
-
+            
+            
             user_data = user.dict(exclude={"confirm_password"})
 
             created = UserModel(**user_data)

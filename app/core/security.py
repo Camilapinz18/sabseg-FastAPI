@@ -18,11 +18,12 @@ def verify_password(plain_password, hashed_password):
 
 
 
-def encode_token(user_id):
+def encode_token(user_id, user_role):
     payload={
-        'exp':datetime.utcnow()+ timedelta(days=0, minutes=5),
+        'exp':datetime.utcnow()+ timedelta(days=1, minutes=5),
         'iat':datetime.utcnow(),
-        'sub':user_id
+        'sub':user_id, 
+        'role':user_role
 
     }
     return jwt.encode(
@@ -33,14 +34,21 @@ def encode_token(user_id):
 
 def decode_token(token):
     try:
-        payload=jwt.decode(token, secret, algorithms=['HS256'])
-        return payload['sub']
+        payload = jwt.decode(token, secret, algorithms=['HS256'])
+        user_id = payload['sub']
+        user_role = payload.get('role')
+        
+        return {
+            'id':user_id,
+            'role':user_role
+        }
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=401, detail='SU sesión ha finalzado')
     except jwt.InvalidTokenError as e:
         raise HTTPException(status_code=401, detail='Token inválido')
 
 def auth_wrapper(auth: HTTPAuthorizationCredentials= Security(security)):
+    print("AYUTH",auth.credentials)
     hola=decode_token(auth.credentials)
     print("HOLAAAAA",hola)
     return hola
