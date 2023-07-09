@@ -15,13 +15,14 @@ from app.modules.reservations.providers.reservation import Reservation as Reserv
 
 # schemas
 from app.modules.reservations.schemas.reservation import ReservationPost, ReservationUpdate
-from app.core.auth.providers.auth import Auth
+from app.core.security import auth_wrapper
 
 
 
 
 @reservations_router.get("")
 def get_reservations(
+    _=Depends(auth_wrapper),
     db_session: Session = Depends(get_db)
 ):
     reservations = ReservationProvider.get_reservations(db_session)
