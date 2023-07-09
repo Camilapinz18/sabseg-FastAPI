@@ -22,12 +22,17 @@ def upgrade() -> None:
         sa.Column('created_at', sa.DateTime(), nullable=True),
         sa.Column('updated_at', sa.DateTime(), nullable=True),
         sa.Column('name', sa.String(), nullable=False),
-        sa.Column('code', sa.Integer(), nullable=False),
-        sa.PrimaryKeyConstraint('id')
+        sa.Column('code', sa.String(), nullable=False),
+        sa.PrimaryKeyConstraint('code')
         )
-    op.create_index(op.f('ix_roles_id'), 'roles', ['id'], unique=False)
+    op.create_index(op.f('ix_roles_code'), 'roles', ['code'], unique=False)
 
+    op.add_column('user', sa.Column('role', sa.String(), nullable=True))
+    op.create_foreign_key('fk_user_role', 'user', 'roles', ['role'], ['code'])
 
 def downgrade() -> None:
-    op.drop_index(op.f('ix_roles_id'), table_name='roles')
+    op.drop_constraint('fk_user_role', 'user', type_='foreignkey')
+    op.drop_column('user', 'role')
+
+    op.drop_index(op.f('ix_roles_code'), table_name='roles')
     op.drop_table('roles')

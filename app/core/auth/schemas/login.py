@@ -19,7 +19,8 @@ class Register(BaseModel):
     name: str
     surname: str
     phone: str
-    attendance: int    
+    attendance: int 
+    role: Optional[int]
     
     class Config:
         orm_mode = True

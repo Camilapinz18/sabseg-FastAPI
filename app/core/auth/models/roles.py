@@ -6,6 +6,7 @@ from sqlalchemy import String
 # base
 from app.core.db.base import Base
 
-class Role(Base):
-    name = Column(String, nullable=False)
+class Roles(Base):
     code = Column(String, nullable=False)
+    name = Column(String, nullable=False)
+    

@@ -32,4 +32,4 @@ class DefaultRoles(ExtendedEnum):
         name
     ):
         self.code = code
-        self.name = name
+        self._name = name

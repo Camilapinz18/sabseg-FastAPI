@@ -19,7 +19,7 @@ from sqlalchemy.orm import Session
 from app.core.auth.schemas.login import Login
 
 from app.core.security import *
-
+from app.core.db.default_data.master_data.roles.roles import DefaultRoles
 
 # models:
 from app.modules.users.models.user import User as UserModel
@@ -62,8 +62,10 @@ class Auth():
         if register_data.password == register_data.confirm_password:
             
             password=register_data.password
+
             hashed_password=get_password_hash(password)
             register_data.password=hashed_password
+            register_data.role=DefaultRoles.client.code
             print("EGISTER",register_data)
 
             user_data = register_data.dict(exclude={"confirm_password"})

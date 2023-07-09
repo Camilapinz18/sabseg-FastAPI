@@ -14,3 +14,7 @@ class User(Base):
     email = Column(String, nullable=False)
     password = Column(String, nullable=False)
     attendance = Column(Integer, nullable=False)
+
+    role= Column(String, ForeignKey('roles.code'), nullable=True)
+    role_info=relationship('Roles', lazy='joined')
+
