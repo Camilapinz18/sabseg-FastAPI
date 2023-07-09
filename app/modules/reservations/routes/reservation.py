@@ -22,10 +22,10 @@ from app.core.security import auth_wrapper
 
 @reservations_router.get("")
 def get_reservations(
-    _=Depends(auth_wrapper),
+    current_user=Depends(auth_wrapper),
     db_session: Session = Depends(get_db)
 ):
-    reservations = ReservationProvider.get_reservations(db_session)
+    reservations = ReservationProvider.get_reservations(current_user,db_session)
     return reservations
 
 

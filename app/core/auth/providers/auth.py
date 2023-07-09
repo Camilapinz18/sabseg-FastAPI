@@ -44,7 +44,7 @@ class Auth():
                     detail='Contraseña incorrecta'
                 )
             else:
-                token=encode_token(login_data.email)
+                token=encode_token(user.id)
                 return {'token':token}
 
 

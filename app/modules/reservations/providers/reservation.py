@@ -7,8 +7,9 @@ from app.modules.equipments.models.equipment import Equipment as EquipmentModel
 
 
 class Reservation():
-    def get_reservations(db_session):
-        reservations = db_session.query(ReservationModel).all()
+    def get_reservations(current_user, db_session):
+        reservations = db_session.query(ReservationModel).filter(
+            ReservationModel.client_id==current_user).all()
 
         return reservations
     
