@@ -1,6 +1,8 @@
 from fastapi import HTTPException
 from sqlalchemy import func, distinct
 
+from app.core.db.default_data.master_data.users.users import DefaultUsers
+
 # models:
 from app.modules.users.models.user import User as UserModel
 
@@ -51,6 +53,8 @@ class Users():
 
     def delete_user_by_id(id, db_session):
         user = db_session.query(UserModel).filter(UserModel.id == id).first()
+
+        if user.email == DefaultUsers.admin.value:
 
         if user:
             db_session.delete(user)

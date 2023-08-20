@@ -66,10 +66,8 @@ class Auth():
             hashed_password=get_password_hash(password)
             register_data.password=hashed_password
             register_data.role=DefaultRoles.client.code
-            print("EGISTER",register_data)
 
             user_data = register_data.dict(exclude={"confirm_password"})
-
 
             created = UserModel(**user_data)
             db_session.add(created)
