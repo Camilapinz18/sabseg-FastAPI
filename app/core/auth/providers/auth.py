@@ -38,13 +38,11 @@ class Auth():
             plain_password= login_data.password
             hashed_password = user.password
             if not verify_password(plain_password, hashed_password):
-                print("INCORRECT____", plain_password, hashed_password)
                 raise HTTPException(
                     status_code=401,
                     detail='Contraseña incorrecta'
                 )
             else:
-                print("DEVUELVE ID",user.id)
                 token=encode_token(user.id, user.role)
                 return {'token':token, 'role':user.role, 'id':user.id}
 

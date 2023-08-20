@@ -22,7 +22,6 @@ class Reservation():
         reservation_to_return = []
 
         for r in reservations:
-            print("R", r.id)
 
             obj = {
                 'id': r.id,
@@ -40,7 +39,6 @@ class Reservation():
 
             reservation_to_return.append(obj)
 
-        print("reservation_to_return", reservation_to_return)
 
         return reservation_to_return
 
@@ -57,7 +55,6 @@ class Reservation():
         return reservation
 
     def create_reservation(reservation, db_session, current_user):
-        print("CURRENTTTTT>>>",current_user)
         equipments = reservation.equipments
 
         reservation = ReservationModel(
@@ -67,7 +64,6 @@ class Reservation():
         total_equipments = []
 
         for id in equipments:
-            print("id", id)
 
             equipment_objects = db_session.query(EquipmentModel).filter(
                 EquipmentModel.id == id).first()
@@ -80,26 +76,11 @@ class Reservation():
 
             total_equipments.append(equipment_objects)
 
-        print("equipment_objects", equipment_objects)
         reservation.equipments = total_equipments
 
         db_session.add(reservation)
         db_session.commit()
-        # db_session.refresh(reservation)
-
-        # equipments_to_save=[]
-
-        # for data in equipments:
-        #     reservation_equipments=ReservationEquipmentsModel(
-        #         equipment_id = data,
-        #         reservation_id = reservation.id
-        #     )
-
-        #     equipments_to_save.append(reservation_equipments)
-
-        # db_session.add_all(equipments_to_save)
-        # db_session.commit()
-
+        
         return {"msg": f"Se han creado la reservación exitosamente"}
 
     def delete_reservation_by_id(id, db_session):
@@ -116,21 +97,4 @@ class Reservation():
                 detail='No se ha encontrado una reserva con el id proporcionado'
             )
 
-    def update_room(id, room_update, db_session):
-
-        room = db_session.query(RoomModel).filter(RoomModel.id == id).first()
-
-        if not room:
-            raise HTTPException(
-                status_code=404,
-                detail='No se ha encontrado una sala con el id proporcionado'
-            )
-
-        room.name = room_update.name
-        room.status = room_update.status
-        room.category_name = room_update.category_name
-
-        db_session.add(room)
-        db_session.commit()
-
-        return {"msg": "Sala actualizada correctamente"}
+    

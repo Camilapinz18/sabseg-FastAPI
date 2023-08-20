@@ -48,7 +48,5 @@ def decode_token(token):
         raise HTTPException(status_code=401, detail='Token inválido')
 
 def auth_wrapper(auth: HTTPAuthorizationCredentials= Security(security)):
-    print("AYUTH",auth.credentials)
-    hola=decode_token(auth.credentials)
-    print("HOLAAAAA",hola)
-    return hola
+    user=decode_token(auth.credentials)
+    return user
