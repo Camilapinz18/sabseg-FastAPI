@@ -91,7 +91,8 @@ class Equipment():
         distinct_equipments = list(set(reserved_equipments))
         
         available_equipment = db_session.query(EquipmentModel).filter(
-            ~EquipmentModel.id.in_(distinct_equipments)
+            ~EquipmentModel.id.in_(distinct_equipments),
+            EquipmentModel.status == 'available'
         ).all()              
     
         return available_equipment

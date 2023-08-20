@@ -5,6 +5,7 @@ from datetime import date, datetime, time
 
 
 class AvailableRoomPost(BaseModel):
+    room_type: str
     date: date
     start_hour: time
     end_hour: time

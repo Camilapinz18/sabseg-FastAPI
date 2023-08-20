@@ -1,10 +1,13 @@
 from fastapi import HTTPException
+from sqlalchemy.orm import aliased
+
 from sqlalchemy import func, distinct
-from sqlalchemy.sql import and_, or_, not_  # Import the necessary logical operators
+from sqlalchemy.sql import and_, or_, not_ # Import the necessary logical operators
 from sqlalchemy.sql.expression import literal_column
 
 # models:
 from app.modules.rooms.models.room import Room as RoomModel
+from ..models.room_category import RoomCategory
 from app.modules.reservations.models.reservation import Reservation as ReservationModel
 
 
@@ -67,18 +70,34 @@ class Room():
         return {"msg": "Sala actualizada correctamente"}
     
     def get_available_rooms(available, db_session):
-        
+        category_id = db_session.query(RoomCategory.id).filter_by(name=available.room_type).scalar()
+
         available_rooms = db_session.query(RoomModel).filter(
-            RoomModel.id.notin_(
-                db_session.query(ReservationModel.room_id).filter(
-                    and_(
-                        ReservationModel.date == available.date,
-                        ReservationModel.end_hour <= available.end_hour,
-                        ReservationModel.start_hour >= available.start_hour
+            and_(
+                RoomModel.id.notin_(
+                    db_session.query(ReservationModel.room_id).filter(
+                        and_(
+                            ReservationModel.date == available.date,
+                            ReservationModel.end_hour <= available.end_hour,
+                            ReservationModel.start_hour >= available.start_hour
+                        )
                     )
-                )
+                ),
+                RoomModel.status == 'available',
+                RoomModel.category_name == category_id
             )
         ).all()
-        
+
         return available_rooms
+
+
+
+
+
+
+
+
+
+
+
 
