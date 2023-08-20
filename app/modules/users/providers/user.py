@@ -54,7 +54,11 @@ class Users():
     def delete_user_by_id(id, db_session):
         user = db_session.query(UserModel).filter(UserModel.id == id).first()
 
-        if user.email == DefaultUsers.admin.value:
+        if user.email == DefaultUsers.admin.value[0]:
+            raise HTTPException(
+                status_code=400,
+                detail="No se puede eliminar al usuario Administrador"
+            )
 
         if user:
             db_session.delete(user)

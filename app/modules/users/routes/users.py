@@ -14,7 +14,7 @@ from sqlalchemy.orm import Session
 from app.modules.users.providers.user import Users as UsersProvider
 
 # schemas
-from app.modules.users.schemas.user import UserPost, UserUpdate
+from app.modules.users.schemas.user import UserPost, UserUpdate, UserGet
 
 
 @users_router.get("")
@@ -25,11 +25,11 @@ def get_users(
     return users
 
 
-@users_router.get("/{id}")
+@users_router.get("/{id}", response_model=UserGet)
 def get_user_by_id(
     id: int,
     db_session: Session = Depends(get_db)
-):
+)-> UserGet:
     user = UsersProvider.get_user_by_id(id, db_session)
     return user
 

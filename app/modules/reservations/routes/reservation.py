@@ -41,9 +41,10 @@ def get_reservation_by_id(
 @reservations_router.post("")
 def create_reservation(
     reservation: ReservationPost,
-    db_session: Session = Depends(get_db)
+    db_session: Session = Depends(get_db),
+    current_user=Depends(auth_wrapper),
 ):
-    created = ReservationProvider.create_reservation(reservation,  db_session)
+    created = ReservationProvider.create_reservation(reservation,  db_session, current_user)
     return created
 
 

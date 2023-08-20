@@ -24,3 +24,13 @@ class UserUpdate(BaseModel):
 
     class Config:
         orm_mode = True
+
+class UserGet(BaseModel):
+    name: Optional[str]
+    surname: Optional[str]
+    phone: Optional[str]
+    email: Optional[str]
+
+    class Config:
+        orm_mode = True
+

@@ -44,8 +44,9 @@ class Auth():
                     detail='Contraseña incorrecta'
                 )
             else:
+                print("DEVUELVE ID",user.id)
                 token=encode_token(user.id, user.role)
-                return {'token':token, 'role':user.role}
+                return {'token':token, 'role':user.role, 'id':user.id}
 
 
         

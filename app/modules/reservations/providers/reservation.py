@@ -56,7 +56,8 @@ class Reservation():
 
         return reservation
 
-    def create_reservation(reservation, db_session):
+    def create_reservation(reservation, db_session, current_user):
+        print("CURRENTTTTT>>>",current_user)
         equipments = reservation.equipments
 
         reservation = ReservationModel(
@@ -101,17 +102,18 @@ class Reservation():
 
         return {"msg": f"Se han creado la reservación exitosamente"}
 
-    def delete_room_by_id(id, db_session):
-        room = db_session.query(RoomModel).filter(RoomModel.id == id).first()
+    def delete_reservation_by_id(id, db_session):
+        reservation = db_session.query(ReservationModel).filter(
+            ReservationModel.id == id).first()
 
-        if room:
-            db_session.delete(room)
+        if reservation:
+            db_session.delete(reservation)
             db_session.commit()
-            return {"msg": "Sala eliminada correctamente"}
+            return {"msg": "Reserva eliminada correctamente"}
         else:
             raise HTTPException(
                 status_code=404,
-                detail='No se ha encontrado una sala con el id proporcionado'
+                detail='No se ha encontrado una reserva con el id proporcionado'
             )
 
     def update_room(id, room_update, db_session):
