@@ -133,10 +133,29 @@ def upgrade() -> None:
         sa.ForeignKeyConstraint(['equipment_id'], ['equipment.id'], ondelete='CASCADE')
     )
         
+    
+    
+    op.create_table('roles',
+        sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+        sa.Column('created_at', sa.DateTime(), nullable=True),
+        sa.Column('updated_at', sa.DateTime(), nullable=True),
+        sa.Column('name', sa.String(), nullable=False),
+        sa.Column('code', sa.String(), nullable=False),
+        sa.PrimaryKeyConstraint('code')
+        )
+    op.create_index(op.f('ix_roles_code'), 'roles', ['code'], unique=False)
+
+    op.add_column('user', sa.Column('role', sa.String(), nullable=True))
+    op.create_foreign_key('fk_user_role', 'user', 'roles', ['role'], ['code'])
 
 
 def downgrade() -> None:
-  
+    op.drop_constraint('fk_user_role', 'user', type_='foreignkey')
+    op.drop_column('user', 'role')
+
+    op.drop_index(op.f('ix_roles_code'), table_name='roles')
+    op.drop_table('roles')
+
     op.drop_table('reservation')
     op.drop_table('reservation_type')
     

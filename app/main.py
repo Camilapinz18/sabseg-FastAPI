@@ -15,7 +15,7 @@ app = FastAPI(
 async def startup_event():
 
     print(sys.path)
-    import_bulk_default_data()
+    #import_bulk_default_data()
 
 app.add_middleware(
     CORSMiddleware,
