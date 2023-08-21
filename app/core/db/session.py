@@ -8,8 +8,8 @@ from app.core.data import Data
 
 engine = create_engine(
     #f'postgresql://Camilapinz18:gR6oQeOBftJ9@ep-muddy-snowflake-466588.us-east-2.aws.neon.tech/neondb',
-    f'postgresql://sabseg_admin:sabseg@localhost:5432/sabseg_db')
-    #f'postgresql://Camilapinz18:swh6GdoLqz8W@ep-white-leaf-37502486.us-east-2.aws.neon.tech/neondb')
+    #f'postgresql://sabseg_admin:sabseg@localhost:5432/sabseg_db')
+    f'postgresql://Camilapinz18:swh6GdoLqz8W@ep-white-leaf-37502486.us-east-2.aws.neon.tech/neondb')
     
     
     
