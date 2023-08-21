@@ -17,8 +17,8 @@ alembic_config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '
 print("alembic_config_path",alembic_config_path)
 @app.on_event("startup")
 async def startup_event():
-    alembic_cfg = Config(alembic_config_path)
-    command.upgrade(alembic_cfg, 'head')
+    # alembic_cfg = Config(alembic_config_path)
+    # command.upgrade(alembic_cfg, 'head')
     
     import_bulk_default_data()
     print("Project started")
